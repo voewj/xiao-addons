@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <!--修改原有客户模块的form，添加商朋公司所需要的一些信息-->
+        <record id="view_visbp_partner_form" model="ir.ui.view">
+            <field name="name">Visbp partner extend</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='internal_notes']" position="after">
+                    <page name="visbp" string="商朋" attrs="{'invisible': [('is_company', '=', False)]}">
+                        <group>
+                            <group name="left">
+                                <field name="kuaiji"/>
+                                <field name="type2" widget="radio"/>
+                                <field name="caizhika"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_visbp_custom_form" model="ir.ui.view">
+            <field name="name">visbp_custom.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="visbp.view_visbp_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='left']" position="after">
+                    <group>
+                        <field name="guoshui"/>
+                        <field name="dishui"/>
+                        <field name="shibiehao"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

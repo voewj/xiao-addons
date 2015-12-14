@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_visbp" sequence="15" name="商朋"/>
+        <menuitem id="menu_visbp_account" sequence="1" name="单据" parent="menu_visbp"/>
+        <record id="view_shoudan_form" model="ir.ui.view">
+            <field name="name">Shoudan form</field>
+            <field name="model">visbp.shoudan</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="set_cancel" type="object" string="取消" states="confirm" groups="base.group_visbp_manager"/>
+                        <button name="set_confirm" type="object" string="移交会计" states="draft" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="partner_id" />
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="kuaiji_id"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="收单明细">
+                                <field name="shoudan_lines">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="code"/>
+                                        <field name="month"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_shoudan_tree" model="ir.ui.view">
+            <field name="name">Shoudan Tree</field>
+            <field name="model">visbp.shoudan</field>
+            <field name="arch" type="xml">
+                <tree string="收单" colors="grey:state=='cancel';blue:state=='confirm'">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="create_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="search_shoudan" model="ir.ui.view">
+            <field name="name">Search shoudan</field>
+            <field name="model">visbp.shoudan</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <group string="分类统计">
+                        <filter string="客户" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="月份" domain="[]" context="{'group_by': 'create_date'}"/>
+                        <filter string="会计" domain="[]" context="{'group_by': 'kuaiji_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_shoudan" model="ir.actions.act_window">
+            <field name="name">收单</field>
+            <field name="res_model">visbp.shoudan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_shoudan" action="action_shoudan" parent="menu_visbp_account" sequence="1"/>
+        <record id="view_shoudan_line_tree" model="ir.ui.view">
+            <field name="name">Shoudan Line tree</field>
+            <field name="model">visbp.shoudan.line</field>
+            <field name="arch" type="xml">
+                <tree string="收单明细">
+                    <field name="shoudan_id"/>
+                    <field name="name"/>
+                    <field name="month"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_shoudan_line_form" model="ir.ui.view">
+            <field name="name">Shoudan Line form</field>
+            <field name="model">visbp.shoudan.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="month"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                                <field name="code" attrs="{'invisible': [('type', '!=', 'kd')]}"/>
+                                <field name="shoudan_id"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="收入明细" attrs="{'invisible': [('name', '!=', 'sr')]}">
+                                <field name="shouru_line">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_shoudan_line_search" model="ir.ui.view">
+            <field name="name">Search shoudan Line</field>
+            <field name="model">visbp.shoudan.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="shoudan_id"/>
+                    <group string="分类">
+                        <filter string="期间" domain="[]" context="{'group_by': 'month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_shoudan_line" model="ir.actions.act_window">
+            <field name="name">收单明细</field>
+            <field name="res_model">visbp.shoudan.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_shoudan_line" action="action_shoudan_line" parent="menu_visbp_account" sequence="2" groups="base.group_visbp_zhuli"/>
+        <menuitem id="menu_visbp_custom" action="base.action_partner_form" parent="menu_visbp_account" sequence="3"/>
+    </data>
+</openerp>

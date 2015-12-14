@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record id="visbp_partner_wizard_form" model="ir.ui.view">
+            <field name="name">Partner Wizard form</field>
+            <field name="model">visbp.partner.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="oe_right">
+                        <button string="新客户" type="object" name="get_new"/>
+                    </div>
+                    <field name="partner_ids"/>
+                    <group>
+                        <group><field name="new_kuaiji" /></group>
+                    </group>
+                    <footer>
+                        <button type="object" name="set_kuaiji" class="oe_highlight" string="提交" attrs="{'invisible': [('new_kuaiji', '=', False)]}"/>
+                        <button	special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="action_visbp_partner_wizard" name="批量指派会计" res_model="visbp.partner.wizard"
+                    src_model="res.partner" view_mode="form" target="new" multi="True" groups="base.group_visbp_manager"
+        />
+    </data>
+</openerp>

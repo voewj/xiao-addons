@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="base.visbp_customer" model="res.groups">
+            <field name="name">客户</field>
+            <field name="comment">商朋的客户，将在APP端看到自己的财务信息</field>
+        </record>
+    </data>
+</openerp>

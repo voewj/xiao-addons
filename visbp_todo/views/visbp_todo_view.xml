@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <!--Todo 的视图 和菜单-->
+        <menuitem id="menu_visbp_todo" name="任务" sequence="2" parent="visbp.menu_visbp"/>
+
+        <!--记账相关的视图-->
+
+        <record id="view_pingzheng_form" model="ir.ui.view">
+            <field name="name">Pingzheng from</field>
+            <field name="model">visbp.pingzheng</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="process_date"/>
+                                <field name="code"/>
+                                <field name="todo_id"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="user_id"/>
+                                <field name="period_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page>
+                                <field name="pingzheng_ids">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                        <field name="account_id"/>
+                                        <field name="debit" sum="借方合计"/>
+                                        <field name="credit" sum="贷方合计"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_visbp_pingzheng_tree" model="ir.ui.view">
+            <field name="name">Pingzheng Tree</field>
+            <field name="model">visbp.pingzheng</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="period_id"/>
+                    <field name="code"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_visbp_pingzheng_search" model="ir.ui.view">
+            <field name="name">Pingzheng Search</field>
+            <field name="model">visbp.pingzheng</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="todo_id"/>
+                    <group>
+                        <filter string="客户" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="期间" domain="[]" context="{'group_by': 'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_visbp_pingzheng" model="ir.actions.act_window">
+            <field name="name">记账</field>
+            <field name="res_model">visbp.pingzheng</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem id="menu_pingzheng" action="action_visbp_pingzheng" parent="menu_visbp_todo" sequence="2"/>
+
+        <!--报税相关的视图-->
+
+        <record id="view_visbp_baoshui_form" model="ir.ui.view">
+            <field name="name">Baoshui form</field>
+            <field name="model">visbp.baoshui</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="gs_image" widget="image" options="{'priview_image': 'gs_image', 'size': [90,90]}"/>
+                                <field name="ds_image" widget="image" options="{'priview_image': 'ds_image', 'size': [90,90]}"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="period_id"/>
+                                <field name="todo_id" />
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_visbp_baoshui_tree" model="ir.ui.view">
+            <field name="name">Baoshui Tree</field>
+            <field name="model">visbp.baoshui</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="period_id"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_visbp_baoshui_search" model="ir.ui.view">
+            <field name="name">Baoshui Search</field>
+            <field name="model">visbp.baoshui</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="todo_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_baoshui" model="ir.actions.act_window">
+            <field name="name">报税</field>
+            <field name="res_model">visbp.baoshui</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_visbp_baoshui" action="action_baoshui" parent="menu_visbp_todo" sequence="3"/>
+        <record id="view_visbp_todo_form" model="ir.ui.view">
+            <field name="name">Todo Form</field>
+            <field name="model">visbp.todo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="do_bs" type="object" string="已记账" states="draft"/>
+                        <button name="do_jz" type="object" string="已报税" states="draft"/>
+                        <button name="do_done" type="object" states="draft,bs,jz" string="全部完成" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name"/></h1>
+                    <h2>
+                        合同有效期间：<field name="start_date" class="oe_inline"/> 至
+                        <field name="end_date" class="oe_inline"/>
+                    </h2>
+                    <sheet>
+                        <div name="buttons" class="oe_right oe_button_box">
+                            <button class="oe_stat_button" type="action" icon="fa-files-o" name="%(action_visbp_pingzheng)d" context="{'search_default_todo_id': active_id, 'default_todo_id': active_id}">
+                                <field name="pingzheng_count" string="记账" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="action" icon="fa-files-o" name="%(action_baoshui)d" context="{'search_default_todo_id': active_id, 'default_todo_id': active_id}">
+                                <field name="baoshui_count" string="报税" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group>
+                                <field name="period_id"/>
+                                <field name="partner_code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_visbp_todo_tree" model="ir.ui.view">
+            <field name="name">Todo Tree</field>
+            <field name="model">visbp.todo</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='done'">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="period_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_visbp_todo_search" model="ir.ui.view">
+            <field name="name">Search todo</field>
+            <field name="model">visbp.todo</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="name"/>
+                    <group string="分类">
+                        <filter string="客户" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="会计" domain="[]" context="{'group_by': 'user_id'}"/>
+                        <filter string="期间" domain="[]" context="{'group_by': 'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_visbp_todo" model="ir.actions.act_window">
+            <field name="name">任务</field>
+            <field name="res_model">visbp.todo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_todo" action="action_visbp_todo" parent="menu_visbp_todo" sequence="1"/>
+
+
+        <!--修改客户的form-->
+        <record id="view_visbp_todo_partner" model="ir.ui.view">
+            <field name="name">Partner Extend</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="visbp.view_visbp_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='kuaiji']" position="after">
+                    <field name="code"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

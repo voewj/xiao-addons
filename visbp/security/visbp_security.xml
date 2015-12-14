@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="base.group_visbp_zhuli" model="res.groups">
+            <field name="name">财务助理</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="base.group_visbp_kuaiji" model="res.groups">
+            <field name="name">会计</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="base.group_visbp_manager" model="res.groups">
+            <field name="name">财务主管</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_visbp_zhuli'))]"/>
+        </record>
+        <!--添加record rules-->
+        <record id="visbp_kuaiji_rule" model="ir.rule">
+            <field name="name">会计的收单</field>
+            <field name="model_id" ref="model_visbp_shoudan"/>
+            <field name="domain_force">[('kuaiji_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_visbp_kuaiji'))]"/>
+        </record>
+
+        <record id="visbp_kuaiji_partner_rule" model="ir.rule">
+            <field name="name">会计的客户</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[('kuaiji', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_visbp_kuaiji'))]"/>
+        </record>
+        <record id="visbp_kuaiji_line_rule" model="ir.rule">
+            <field name="name">会计的收单明细</field>
+            <field name="model_id" ref="model_visbp_shoudan_line"/>
+            <field name="domain_force">[('kuaiji_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_visbp_kuaiji'))]"/>
+        </record>
+    </data>
+</openerp>

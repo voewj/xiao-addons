@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_visbp_shoudan,visbp.shoudan,model_visbp_shoudan,base.group_visbp_zhuli,1,1,1,0
+access_visbp_shoudan_line,visbp.shoudan.line,model_visbp_shoudan_line,base.group_visbp_zhuli,1,1,1,0
+access_visbp_shouru,visbp.shouru,model_visbp_shouru,base.group_visbp_zhuli,1,1,1,0
+access_visbp_shoudan_kuaiji,visbp.shoudan.kuaiji,model_visbp_shoudan,base.group_visbp_kuaiji,1,0,0,0
+access_visbp_shoudan_line_kuaiji,visbp.shoudan.line.kuaiji,model_visbp_shoudan_line,base.group_visbp_kuaiji,1,0,0,0
+access_visbp_shouru_kuaiji,visbp.shouru.kuaiji,model_visbp_shouru,base.group_visbp_kuaiji,1,0,0,0
+access_visbp_shoudan_manaer,visbp.shoudan.manager,model_visbp_shoudan,base.group_visbp_manager,1,1,1,1
+access_visbp_shoudan_line_manager,visbp.shoudan.line.manager,model_visbp_shoudan_line,base.group_visbp_manager,1,1,1,1
+access_visbp_shouru_manager,visbp.shouru.manager,model_visbp_shouru,base.group_visbp_manager,1,1,1,1
