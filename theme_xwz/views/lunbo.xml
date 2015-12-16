@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <template id="theme_lunbo" name="轮播图">
+            <section class="lunbo">
+                <div class="container">
+                    <div id="myCarousel" class="carousel slide mb32" style="">
+                        <ol class="carousel-indicators hidden">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img class='img-responsive' src="/theme_xwz/static/src/img/huayi-1.jpg" alt="Fs" style=""/>
+                            </div>
+                        </div>
+                        <div class="carousel-control left hidden" data-target="#myCarousel" data-slide="prev" style="width: 10%"><i class="fa fa-chevron-left"></i></div>
+                        <div class="carousel-control right hidden" data-target="#myCarousel" data-slide="next" style="width: 10%"><i class="fa fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </section>
+        </template>
+        <template id="into_bar_theme_lunbo" inherit_id="website.snippets">
+			<xpath expr="//div[@id='snippet_content']" position="inside">
+				<t t-snippet="theme_xwz.theme_lunbo" t-thumbnail="/theme_xwz/static/src/img/lunbo.png" />
+			</xpath>
+        </template>
+    </data>
+</openerp>
