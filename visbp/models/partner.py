@@ -11,6 +11,17 @@ class Partner(models.Model):
     kuaiji = fields.Many2one('res.users', string='会计')
     type2 = fields.Selection([('nsr', '一般纳税人'), ('xgm', '小规模')], string='纳税人类别', default='xgm')
     caizhika = fields.Boolean(string="财智卡", help='如果客户财智卡在我公司请打勾！')
+    liushi  = fields.Boolean(string='流失', default=False)
+    geshui_line = fields.One2many('visbp.geshui', 'partner_id', string='个税名单')
+
+class Geshui(models.Model):
+    _name = 'visbp.geshui'
+
+    name = fields.Char(string='姓名', required=True)
+    code = fields.Char(string='身份证', size=18)
+    gongzi = fields.Float(string='工资')
+    is_active = fields.Boolean(string='在职', default=True)
+    partner_id = fields.Many2one('res.partner', string='公司', domain=[('is_company', '=', True)])
 
 
 class partnerWizard(models.TransientModel):

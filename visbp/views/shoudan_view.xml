@@ -11,6 +11,7 @@
                     <header>
                         <button name="set_cancel" type="object" string="取消" states="confirm" groups="base.group_visbp_manager"/>
                         <button name="set_confirm" type="object" string="移交会计" states="draft" class="oe_highlight"/>
+                        <button name="auto_all" type="object" string="一键生成" states="draft" class="oe_highlight"/>
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
@@ -18,6 +19,7 @@
                             <group>
                                 <field name="name" readonly="1"/>
                                 <field name="partner_id" />
+                                <field name="moth"/>
                             </group>
                             <group>
                                 <field name="user_id"/>
@@ -32,7 +34,7 @@
                                         <field name="name"/>
                                         <field name="type"/>
                                         <field name="code"/>
-                                        <field name="month"/>
+                                        <field name="period_id"/>
                                     </tree>
                                 </field>
                             </page>
@@ -45,7 +47,7 @@
             <field name="name">Shoudan Tree</field>
             <field name="model">visbp.shoudan</field>
             <field name="arch" type="xml">
-                <tree string="收单" colors="grey:state=='cancel';blue:state=='confirm'">
+                <tree string="收单" colors="grey:state=='cancel';red:state=='draft'">
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>
@@ -62,6 +64,7 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
                     <group string="分类统计">
                         <filter string="客户" domain="[]" context="{'group_by': 'partner_id'}"/>
                         <filter string="月份" domain="[]" context="{'group_by': 'create_date'}"/>
@@ -75,6 +78,7 @@
             <field name="res_model">visbp.shoudan</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_draft': 1}</field>
         </record>
         <menuitem id="menu_shoudan" action="action_shoudan" parent="menu_visbp_account" sequence="1"/>
         <record id="view_shoudan_line_tree" model="ir.ui.view">
@@ -84,7 +88,7 @@
                 <tree string="收单明细">
                     <field name="shoudan_id"/>
                     <field name="name"/>
-                    <field name="month"/>
+                    <field name="period_id"/>
                     <field name="partner_id"/>
                 </tree>
             </field>
@@ -98,7 +102,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="month"/>
+                                <field name="period_id"/>
                                 <field name="partner_id"/>
                             </group>
                             <group>
@@ -114,7 +118,11 @@
                                     <tree editable="top">
                                         <field name="name"/>
                                         <field name="type"/>
+                                        <field name="fapiao"/>
+                                        <field name="product_type"/>
                                         <field name="total"/>
+                                        <field name="baoshui_id"/>
+                                        <field name="period_id"/>
                                     </tree>
                                 </field>
                             </page>
@@ -131,7 +139,7 @@
                     <field name="partner_id"/>
                     <field name="shoudan_id"/>
                     <group string="分类">
-                        <filter string="期间" domain="[]" context="{'group_by': 'month'}"/>
+                        <filter string="期间" domain="[]" context="{'group_by': 'period_id'}"/>
                     </group>
                 </search>
             </field>

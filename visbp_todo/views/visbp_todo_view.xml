@@ -4,6 +4,75 @@
         <!--Todo 的视图 和菜单-->
         <menuitem id="menu_visbp_todo" name="任务" sequence="2" parent="visbp.menu_visbp"/>
 
+        <!-- 开帐的视图 -->
+        <record id="view_kaizhang_form" model="ir.ui.view">
+            <field name="name">Kaizhang Form</field>
+            <field name="model">visbp.kaizhang</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_done" type="object" string="开启" class="oe_highlight" states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group>
+                                <field name="period_id"/>
+                                <field name="user_id"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page>
+                                <field name="line_ids">
+                                    <tree editable="top">
+                                        <field name="account_id"/>
+                                        <field name="debit_total"/>
+                                        <field name="credit_total"/>
+                                        <field name="qichu_debit"/>
+                                        <field name="qichu_credit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_kaizhang_tree" model="ir.ui.view">
+            <field name="name">Kaizhang Tree</field>
+            <field name="model">visbp.kaizhang</field>
+            <field name="arch" type="xml">
+                <tree string="开帐" colors="blue:state=='done'">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="create_date"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_kaizhang_search" model="ir.ui.view">
+            <field name="name">Kaizhang Search</field>
+            <field name="model">visbp.kaizhang</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_kaizhang" model="ir.actions.act_window">
+            <field name="name">开帐</field>
+            <field name="res_model">visbp.kaizhang</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem id="menu_kaizhang" action="action_kaizhang" parent="menu_visbp_todo" sequence="20"/>
+
         <!--记账相关的视图-->
 
         <record id="view_pingzheng_form" model="ir.ui.view">
@@ -92,13 +161,27 @@
                                 <field name="ds_image" widget="image" options="{'priview_image': 'ds_image', 'size': [90,90]}"/>
                             </group>
                             <group>
+                                <field name="name"/>
                                 <field name="partner_id"/>
                                 <field name="period_id"/>
                                 <field name="todo_id" />
                                 <field name="user_id"/>
                             </group>
                         </group>
-
+                        <notebook>
+                            <page>
+                                <separator string="个税名单"/>
+                                <!--
+                                <field name="shouru_lines">
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="fapiao"/>
+                                    <field name="product_type"/>
+                                    <field name="total"/>
+                                </field>
+                                -->
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -108,6 +191,7 @@
             <field name="model">visbp.baoshui</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="name"/>
                     <field name="period_id"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>
@@ -160,10 +244,12 @@
                             <group>
                                 <field name="user_id"/>
                                 <field name="partner_id"/>
+                                <field name="shoudan_id"/>
                             </group>
                             <group>
                                 <field name="period_id"/>
                                 <field name="partner_code"/>
+                                <field name="ref"/>
                             </group>
                         </group>
                     </sheet>
@@ -176,6 +262,8 @@
             <field name="arch" type="xml">
                 <tree colors="blue:state=='done'">
                     <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="ref"/>
                     <field name="user_id"/>
                     <field name="period_id"/>
                     <field name="state"/>

@@ -14,8 +14,18 @@
                                 <field name="kuaiji"/>
                                 <field name="type2" widget="radio"/>
                                 <field name="caizhika"/>
+                                <field name="liushi"/>
                             </group>
                         </group>
+                        <separator string="个税名单"/>
+                        <field name="geshui_line">
+                            <tree editable="buttom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="gongzi"/>
+                                <field name="is_active"/>
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
             </field>

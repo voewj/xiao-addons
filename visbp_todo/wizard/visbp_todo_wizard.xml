@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record id="visbp_todo_guozhang_wizard" model="ir.ui.view">
+            <field name="name">Visbp guozhang</field>
+            <field name="model">visbp.guozhang</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group><field name="partner_id"/></group>
+                        <group><field name="period_id"/> </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="do_pass" string="过帐" class="oe_highlight" attrs="{'invisible': ['|',('partner_id', '=', False), ('period_id', '=', False)]}"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="action_visbp_guozhang" res_model="visbp.guozhang" target="new" view_mode="form" name="过帐"/>
+        <menuitem id="menu_visbp_guozhang" action="action_visbp_guozhang" parent="menu_visbp_todo" sequence="10"/>
+    </data>
+</openerp>

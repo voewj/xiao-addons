@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <template id="report_visbp_account_balance">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="row">
+                            <h2 class="text-center">
+                                科目余额表
+                            </h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span>单位：</span>
+                                <span t-esc="o.partner_id.name"></span>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <span>开始期间：</span>
+                                <span t-esc="o.period_from.name"></span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span>结束期间：</span>
+                                <span t-esc="o.period_end.name"></span>
+                            </div>
+
+                        </div>
+                        <t t-foreach="data" t-as="period">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <span>期间：</span>
+                                    <span t-esc="period[0]"></span>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-condensed" >
+                                <thead>
+                                    <tr>
+                                        <td class="col-xs-1 text-center" rowspan="2">科目代码</td>
+                                        <td class="col-xs-3 text-center" rowspan="2">科目名称</td>
+                                        <td class="col-xs-2 text-center" colspan="2">期初余额</td>
+                                        <td class="col-xs-2 text-center" colspan="2">本期发生额</td>
+                                        <td class="col-xs-2 text-center" colspan="2">本年累计发生额</td>
+                                        <td class="col-xs-2 text-center" colspan="2">期末余额</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">借方</td>
+                                        <td class="text-center">贷方</td>
+                                        <td class="text-center">借方</td>
+                                        <td class="text-center">贷方</td>
+                                        <td class="text-center">借方</td>
+                                        <td class="text-center">贷方</td>
+                                        <td class="text-center">借方</td>
+                                        <td class="text-center">贷方</td>
+                                    </tr>
+                                </thead>
+
+                                <tr t-foreach="period[1]" t-as="a" style="page-break-inside: avoid">
+                                    <td>
+                                        <span t-esc="a[0]"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="a[1]['name']"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['qichu_total'] &gt; 0">
+                                            <span t-esc="a[1]['qichu_total']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['qichu_total'] &lt; 0">
+                                            <span t-esc="a[1]['qichu_total']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['debit_total']">
+                                            <span t-esc="a[1]['debit_total']"/>
+                                        </t>
+                                        <!--
+                                        <span t-esc="data[period][a]['debit_total']"/>
+                                        -->
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['credit_total']">
+                                            <span t-esc="a[1]['credit_total']"/>
+                                        </t>
+                                        <!--
+                                        <span t-esc="data[period][a]['credit_total']"/>
+                                        -->
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['yeardebit_total']">
+                                            <span t-esc="a[1]['yeardebit_total']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['yearcredit_total']">
+                                            <span t-esc="a[1]['yearcredit_total']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['qimo_total'] &gt; 0">
+                                            <span t-esc="a[1]['qimo_total']"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="a[1]['qimo_total'] &lt; 0">
+                                            <span t-esc="a[1]['qimo_total']"/>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </t>
+                        <!--
+                        <table class="table table-bordered table-condensed" >
+                            <thead>
+                                <tr>
+                                    <td class="col-xs-1 text-center" rowspan="2">科目代码</td>
+                                    <td class="col-xs-3 text-center" rowspan="2">科目名称</td>
+                                    <td class="col-xs-2 text-center" colspan="2">期初余额</td>
+                                    <td class="col-xs-2 text-center" colspan="2">本期发生额</td>
+                                    <td class="col-xs-2 text-center" colspan="2">本年累计发生额</td>
+                                    <td class="col-xs-2 text-center" colspan="2">期末余额</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">借方</td>
+                                    <td class="text-center">贷方</td>
+                                    <td class="text-center">借方</td>
+                                    <td class="text-center">贷方</td>
+                                    <td class="text-center">借方</td>
+                                    <td class="text-center">贷方</td>
+                                    <td class="text-center">借方</td>
+                                    <td class="text-center">贷方</td>
+                                </tr>
+                            </thead>
+
+                            <tr t-foreach="data" t-as="a">
+                                <td>
+                                    <span t-esc="data[a]['code']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="a"/>
+                                </td>
+                                <td>
+                                    <span>o</span>
+                                </td>
+                                <td>
+                                    <span>o</span>
+                                </td>
+                                <td>
+                                    <span t-esc="data[a]['debit_total']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data[a]['credit_total']"/>
+                                </td>
+                            </tr>
+
+                        </table>
+-->
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

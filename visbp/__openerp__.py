@@ -6,7 +6,7 @@
     'description': """
     财务部门收单，按会计期间收取统计客户的原始单据，并记录明细。
     """,
-    'depends': ['base', 'visbp_custom'],
+    'depends': ['base', 'visbp_custom', 'account'],
     'application': True,
     'data': ['security/visbp_security.xml',
              'security/ir.model.access.csv',

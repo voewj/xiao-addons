@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <report id="visbp_account_balance"
+                string="科目余额表"
+                report_type="qweb-pdf"
+                model="visbp.balance"
+                name="visbp_todo.report_visbp_account_balance"
+                file="visbp_todo.report_visbp_account_balance"
+        />
+    </data>
+</openerp>

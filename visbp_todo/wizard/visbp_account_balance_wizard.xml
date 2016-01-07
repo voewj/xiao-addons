@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record id="visbp_account_balance_wizard_form" model="ir.ui.view">
+            <field name="name">Visbp Account Balance</field>
+            <field name="model">visbp.balance</field>
+            <field name="arch" type="xml">
+                <form string="科目余额表">
+                    <group>
+                        <group>
+                            <field name="period_from"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="period_end"/>
+                        </group>
+                        <footer>
+                            <button name="check_report" type="object" string="打印" class="oe_highlight"/>
+                            <button special="cancel" string="取消"/>
+                        </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <act_window id="action_visbp_account_balance" res_model="visbp.balance" view_mode="form" target="new" name="科目余额表"/>
+        <menuitem id="menu_visbp_report" name="报表" parent="visbp.menu_visbp" sequence="10"/>
+        <menuitem id="menu_visbp_account_balance" action="action_visbp_account_balance" parent="menu_visbp_report" sequence="1"/>
+    </data>
+</openerp>
